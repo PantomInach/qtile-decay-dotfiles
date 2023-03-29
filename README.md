@@ -14,17 +14,18 @@ Install the following dependencies for Void Linux via `xbps-install`:
 * Qtile: `qtile sxhkd xorg picom`
 * Polybar: `polybar`
 * Dunst: `dunst`
+* GTK: `gtk+3-devel papirus-icon-them`
 
 
 And all together:
-`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar dunst`
+`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar dunst gtk+3-devel papirus-icon-them`
 
 ### Git
 Install the following git repositories:
 * [eww](https://github.com/elkowar/eww)
 
 
-## Dotfiles
+## Dotfiles Cloning
 To install these dotfiles follow [this](https://www.atlassian.com/git/tutorials/dotfiles) guide. Basically you install this repo in your home folder with an alias `config` for git.
 `alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'`
 To hinder unwanted interactions with your current home folder run `echo ".cfg" >> .gitignore`.
@@ -50,7 +51,29 @@ config checkout
 config config status.showUntrackedFiles no
 ```
 
+## Dotfiles Manual Steps
+
+### GTK Themes
+
+#### Color Scheme
+This rice uses the [dark-decay](https://github.com/decaycs) color scheme. For GTK you need to move the `dark-decay` theme out of its directory.
+```bash
+cp -r $HOME/.themes/decay-gtk/Themes/Dark-decay $HOME/.themes/Dark-decay
+```
+
+#### Font
+Here the Bitstream Vera Sans Mono [Nerd Font](https://www.nerdfonts.com/) is used. Download the [font pack](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/BitstreamVeraSansMono.zip) into the `$HOME/.fonts` folder and unzip it.
+This can be done with these bash commands:
+```bash
+wget -O $HOME/.fonts/Bitstream.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/BitstreamVeraSansMono.zip 
+unzip $HOME/.fonts/Bitstream.zip -d $HOME/.fonts
+rm $HOME/.fonts/Bitstream.zip
+fc-cache # Loads the fonts
+```
+
+
 ## Void Linux Configurations
+
 
 # Acknowledgments
 Some configs are modified from other users. In this section I just want to acknowledge and reference there work. 

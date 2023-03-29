@@ -1,3 +1,6 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh/
+[submodule ".themes/decay-gtk"]
+	path = .themes/decay-gtk
+	url = https://github.com/decaycs/decay-gtk
