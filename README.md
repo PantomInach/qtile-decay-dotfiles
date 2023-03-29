@@ -13,10 +13,11 @@ Install the following dependencies for Void Linux via `xbps-install`:
 * Terminal: `alacritty bat exa`
 * Qtile: `qtile sxhkd xorg picom`
 * Polybar: `polybar`
+* Dunst: `dunst`
 
 
 And all together:
-`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar`
+`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar dunst`
 
 ### Git
 Install the following git repositories:
@@ -54,5 +55,7 @@ config config status.showUntrackedFiles no
 # Acknowledgments
 Some configs are modified from other users. In this section I just want to acknowledge and reference there work. 
 
-* eww widgets: [iSparsh/gross](https://github.com/iSparsh/gross) 
+* [durdn](https://www.twitter.com/durdn) for the [guide](https://www.atlassian.com/git/tutorials/dotfiles) to manage your dotfiles
+* [iSparsh/gross](https://github.com/iSparsh/gross) for the base of the eww widgets
+* [fwsmit](https://gist.github.com/fwSmit/9127d988b07bcec9d869f2c927d0f616) for the base of the dunstrc
 
