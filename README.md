@@ -7,14 +7,20 @@ Dotfiles for void Linux using Qtile and a dark-decay color scheme.
 This guide is mainly for Void Linux.
 You may need to adapt the dependencies to use this configuration on another distro.
 
-Install the following dependencies for void Linux:
+### XBPS
+Install the following dependencies for Void Linux via `xbps-install`:
 * Shell: `zsh bat exa`
 * Terminal: `alacritty bat exa`
 * Qtile: `qtile sxhkd xorg picom`
+* Polybar: `polybar`
 
 
 And all together:
-`zsh tmux alacritty bat exa qtile sxhkd xord picom`
+`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar`
+
+### Git
+Install the following git repositories:
+* [eww](https://github.com/elkowar/eww)
 
 
 ## Dotfiles
@@ -44,3 +50,9 @@ config config status.showUntrackedFiles no
 ```
 
 ## Void Linux Configurations
+
+# Acknowledgments
+Some configs are modified from other users. In this section I just want to acknowledge and reference there work. 
+
+* eww widgets: [iSparsh/gross](https://github.com/iSparsh/gross) 
+
