@@ -4,3 +4,9 @@
 [submodule ".themes/decay-gtk"]
 	path = .themes/decay-gtk
 	url = https://github.com/decaycs/decay-gtk
+[submodule ".config/nvim/AstroNvim"]
+	path = .config/nvim/AstroNvim
+	url = https://github.com/AstroNvim/AstroNvim
+[submodule ".config/nvim/lua/user/astronvim-user-settings"]
+	path = .config/nvim/lua/user/astronvim-user-settings
+	url = https://github.com/PantomInach/astronvim-user-settings

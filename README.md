@@ -9,16 +9,16 @@ You may need to adapt the dependencies to use this configuration on another dist
 
 ### XBPS
 Install the following dependencies for Void Linux via `xbps-install`:
-* Shell: `zsh bat exa`
+* Shell: `zsh bat exa neofetch`
 * Terminal: `alacritty bat exa`
 * Qtile: `qtile sxhkd xorg picom`
 * Polybar: `polybar`
 * Dunst: `dunst`
 * GTK: `gtk+3-devel papirus-icon-them`
-
+* Nvim: `nivm glow ripgrep`
 
 And all together:
-`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar dunst gtk+3-devel papirus-icon-them`
+`zsh tmux alacritty bat exa qtile sxhkd xord picom polybar dunst gtk+3-devel papirus-icon-them nvim glow ripgrep`
 
 ### Git
 Install the following git repositories:
