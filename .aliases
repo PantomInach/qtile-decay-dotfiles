@@ -1,0 +1,8 @@
+alias ls="exa"
+alias cat="bat"
+alias glow="glow -p"
+alias du="dust"
+
+# Alias for dotfiles git repo: https://github.com/PantomInach/qtile-decay-dotfiles
+# Guide: https://www.atlassian.com/git/tutorials/dotfiles
+alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
