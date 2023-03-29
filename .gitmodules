@@ -10,3 +10,6 @@
 [submodule ".config/nvim/lua/user/astronvim-user-settings"]
 	path = .config/nvim/lua/user/astronvim-user-settings
 	url = https://github.com/PantomInach/astronvim-user-settings
+[submodule "/home/aaron/.config/nvim"]
+	path = /home/aaron/.config/nvim
+	url = https://github.com/AstroNvim/AstroNvim

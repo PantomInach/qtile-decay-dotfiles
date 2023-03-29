@@ -71,6 +71,14 @@ rm $HOME/.fonts/Bitstream.zip
 fc-cache # Loads the fonts
 ```
 
+### NeoVim
+As a base NeoVim config [AstroNvim](https://github.com/AstroNvim/AstroNvim) is used. This repository should be cloned in a previous step. If you want my additional configuration files, these can be found [here](https://github.com/PantomInach/astronvim-user-settings). Or just install it with these commands:
+```bash
+git clone https://github.com/PantomInach/astronvim-user-settings ~/.config/nvim/lua/user
+sudo cp ~/.config/nvim/lua/user/spell/* /usr/share/nvim/runtime/spell # Install German spell files
+```
+To see what my configuration add, see its [README](https://github.com/PantomInach/astronvim-user-settings).
+
 
 ## Void Linux Configurations
 
