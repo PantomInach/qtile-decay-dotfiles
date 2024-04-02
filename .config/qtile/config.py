@@ -26,6 +26,8 @@
 
 import os
 import subprocess
+from dataclasses import dataclass
+
 from libqtile import qtile
 from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -36,6 +38,46 @@ if qtile.core.name == "x11":
     term = "urxvt"
 elif qtile.core.name == "wayland":
     term = "foot"
+
+# try:
+#     # Configure wayland imput devices
+#     from libqtile.backend.wayland import INputConfig
+#     wl_input_rules = {
+#         "type:keyboard": InputConfig(kb_layout=de),
+#         "*": InputConfig(pointer_accel=False, pointer_accel=-0.8)
+#     }
+# except Exception:
+#     pass
+#
+
+##########
+# Colors #
+##########
+
+
+@dataclass
+class Color:
+    # Decay color schema
+    bright_black = "#384148"
+    bright_blue = "#8cc1ff"
+    bright_cyan = "#90daff"
+    bright_green = "#94f7c5"
+    bright_magenta = "#e2a6ff"
+    bright_red = "#fc7b81"
+    bright_white = "#fafdff"
+    bright_yellow = "#ffeba6"
+    cursor = "#f5f5f5"
+    text = "CellForeground"
+    black = "#1c252c"
+    blue = "#70a5eb"
+    cyan = "#74bee9"
+    green = "#78dba9"
+    magenta = "#c68aee"
+    red = "#e05f65"
+    white = "#dee1e6"
+    yellow = "#f1cf8a"
+    background = "#101419"
+    foreground = "#b6beca"
 
 
 def set_floating_false(window):
@@ -179,7 +221,8 @@ keys = [
     #     lazy.window.togroup(qtile.current_group),
     #     desc="Tile floating window",
     # ),
-    Key([mod], "f", lazy.window.toggle_floating()),
+    Key([mod, "shift"], "f", lazy.window.toggle_floating()),
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
 ]
 
 groups = []
@@ -233,9 +276,9 @@ for i in groups:
 
 # Layout settings
 border_width = 3
-margin = 7
-border_focus = "#e05f65"
-border_normal = "#70a5eb"
+margin = 0
+border_focus = Color.red
+border_normal = Color.blue
 
 # See http://docs.qtile.org/en/latest/manual/ref/layouts.html
 # Floating layout is defined down below.
@@ -283,8 +326,10 @@ layouts = [
 
 widget_defaults = dict(
     font="sans",
-    fontsize=12,
+    fontsize=14,
     padding=3,
+    foreground=Color.foreground,
+    background=Color.background,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -292,40 +337,94 @@ screens = [
     Screen(
         wallpaper="~/.config/wallpaper/background.png",
         wallpaper_mode="stretch",
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    block_highlight_text_color=Color.blue,
+                    highlight_color=["000000", Color.bright_red],
+                    highlight_method="line",
+                    inactive=Color.bright_blue,
+                    other_current_screen_border=Color.blue,
+                    other_screen_border=Color.blue,
+                    this_current_screen_border=Color.red,
+                    this_screen_border=Color.red,
+                    urgent_border=Color.red,
+                    urgent_text=Color.red,
+                    use_mouse_whell=False,
+                ),
+                widget.TextBox("|"),
+                widget.CurrentLayout(),
+                widget.TextBox("|"),
+                widget.WindowName(),
+                #
+                widget.Spacer(),
+                widget.Clock(format="%d-%m-%Y | %a | %I:%M:%S %p"),
+                widget.Spacer(),
+                #
+                widget.Systray(),
+                widget.TextBox("|"),
+                widget.CPU(format="CPU {load_percent}%"),
+                widget.TextBox("|"),
+                widget.Memory(
+                    measure_mem="G", format="RAM {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
+                ),
+                widget.TextBox("|"),
+                widget.KeyboardLayout(configured_keyboards=["de", "us"]),
+                widget.TextBox("| VOL"),
+                widget.PulseVolume(),
+                widget.TextBox("|"),
+                widget.QuickExit(),
+            ],
+            30,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
     ),
     Screen(
         wallpaper="~/.config/wallpaper/background.png",
         wallpaper_mode="stretch",
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    block_highlight_text_color=Color.blue,
+                    highlight_color=["000000", Color.bright_red],
+                    highlight_method="line",
+                    inactive=Color.bright_blue,
+                    other_current_screen_border=Color.blue,
+                    other_screen_border=Color.blue,
+                    this_current_screen_border=Color.red,
+                    this_screen_border=Color.red,
+                    urgent_border=Color.red,
+                    urgent_text=Color.red,
+                    use_mouse_whell=False,
+                ),
+                widget.TextBox("|"),
+                widget.CurrentLayout(),
+                widget.TextBox("|"),
+                widget.WindowName(),
+                #
+                widget.Spacer(),
+                widget.Clock(format="%d-%m-%Y | %a | %I:%M:%S %p"),
+                widget.Spacer(),
+                #
+                widget.CPU(format="CPU {load_percent}%"),
+                widget.TextBox("|"),
+                widget.Memory(
+                    measure_mem="G", format="RAM {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
+                ),
+                widget.TextBox("|"),
+                widget.KeyboardLayout(configured_keyboards=["de", "us"]),
+                widget.TextBox("| VOL"),
+                widget.PulseVolume(),
+                widget.TextBox("|"),
+                widget.QuickExit(),
+            ],
+            30,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
     ),
 ]
-# screens = [
-#     Screen(
-#         bottom=bar.Bar(
-#             [
-#                 widget.CurrentLayout(),
-#                 widget.GroupBox(),
-#                 widget.Prompt(),
-#                 widget.WindowName(),
-#                 widget.Chord(
-#                     chords_colors={
-#                         "launch": ("#ff0000", "#ffffff"),
-#                     },
-#                     name_transform=lambda name: name.upper(),
-#                 ),
-#                 widget.TextBox("default config", name="default"),
-#                 widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-#                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-#                 # widget.StatusNotifier(),
-#                 widget.Systray(),
-#                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-#                 widget.QuickExit(),
-#             ],
-#             24,
-#             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-#             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-#         ),
-#     ),
-# ]
 
 # Drag floating layouts.
 mouse = [
@@ -379,6 +478,7 @@ def autostart():
     home = os.path.expanduser("~")
     try:
         subprocess.Popen([home + "/.config/qtile/scripts/autostart.sh"])
+        # pass
 
     except Exception as e:
         with open("/tmp/qtile_error.txt", "a") as f:

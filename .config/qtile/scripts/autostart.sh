@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Set screen resolutions and refresh rate
-xrandr --output DisplayPort-2 --mode 2560x1440 --rate 143.97 --primary --output DisplayPort-1 --mode 1920x1080 --rate 74.92 --right-of DisplayPort-2
+xrandr --output DisplayPort-1 --mode 2560x1440 --rate 143.97 --primary --output DisplayPort-0 --mode 1920x1080 --rate 74.92 --right-of DisplayPort-1
+# xrandr --output DisplayPort-1 --mode 2560x1440 --rate 143.97 --primary --output HDMI-A-0 --mode 1920x1080 --rate 60.00 --right-of DisplayPort-1
 
 # Set mouse sensitivity
 mouse_device_id=$(xinput | grep 'Razer Mamba Elite  ' | grep -oE 'id=[0-9]*' | cut -d "=" -f 2 | head -n 1)
@@ -26,5 +27,5 @@ thunderbird &
 
 # Wait before starting
 sleep 1
-exec "$HOME/.config/polybar/launch.sh" & # Ensure that pulseaudio daemon is running
+# exec "$HOME/.config/polybar/launch.sh" & # Ensure that pulseaudio daemon is running
 exec "eww daemon" &

@@ -455,7 +455,7 @@ shell:
   args:
     - --login
     - -c
-    - "tmux -f $HOME/.config/tmux.conf"
+    - "tmux -f $HOME/.tmux.conf"
 
 # Startup directory
 #

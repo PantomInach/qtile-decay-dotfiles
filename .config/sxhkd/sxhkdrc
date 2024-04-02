@@ -13,6 +13,9 @@ super + m
 super + shift + m
   ~/.config/dunst/close-notifications.sh
 
+super + alt + m
+  ~/.config/dunst/toggle-notifications.sh
+
 super + v
   pavucontrol
 
@@ -46,3 +49,6 @@ XF86AudioLowerVolume
 
 XF86AudioMute
   amixer sset Master toggle
+
+XF86AudioMicMute
+  amixer sset Capture toggle
