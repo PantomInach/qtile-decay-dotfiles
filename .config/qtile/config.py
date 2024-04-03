@@ -358,7 +358,7 @@ screens = [
                 widget.WindowName(),
                 #
                 widget.Spacer(),
-                widget.Clock(format="%d-%m-%Y | %a | %I:%M:%S %p"),
+                widget.Clock(format="%d-%m-%Y | %a | %H:%M:%S"),
                 widget.Spacer(),
                 #
                 widget.Systray(),
