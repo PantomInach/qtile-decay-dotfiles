@@ -27,6 +27,7 @@
 import os
 import subprocess
 from dataclasses import dataclass
+from copy import deepcopy
 
 from libqtile import qtile
 from libqtile import bar, layout, widget, hook
@@ -34,25 +35,10 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-if qtile.core.name == "x11":
-    term = "urxvt"
-elif qtile.core.name == "wayland":
-    term = "foot"
-
-# try:
-#     # Configure wayland imput devices
-#     from libqtile.backend.wayland import INputConfig
-#     wl_input_rules = {
-#         "type:keyboard": InputConfig(kb_layout=de),
-#         "*": InputConfig(pointer_accel=False, pointer_accel=-0.8)
-#     }
-# except Exception:
-#     pass
-#
-
-##########
-# Colors #
-##########
+##############################
+# Dark decayce color scheme  #
+# https://github.com/decaycs #
+##############################
 
 
 @dataclass
@@ -78,6 +64,23 @@ class Color:
     yellow = "#f1cf8a"
     background = "#101419"
     foreground = "#b6beca"
+
+
+if qtile.core.name == "x11":
+    term = "urxvt"
+elif qtile.core.name == "wayland":
+    term = "foot"
+
+# try:
+#     # Configure wayland imput devices
+#     from libqtile.backend.wayland import INputConfig
+#     wl_input_rules = {
+#         "type:keyboard": InputConfig(kb_layout=de),
+#         "*": InputConfig(pointer_accel=False, pointer_accel=-0.8)
+#     }
+# except Exception:
+#     pass
+#
 
 
 def set_floating_false(window):
@@ -324,6 +327,10 @@ layouts = [
     # layout.Zoomy(),
 ]
 
+#############################
+# Bar and number of screens #
+#############################
+
 widget_defaults = dict(
     font="sans",
     fontsize=14,
@@ -333,48 +340,76 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+widgets = [
+    widget.GroupBox(
+        block_highlight_text_color=Color.blue,
+        highlight_color=["000000", Color.bright_red],
+        highlight_method="line",
+        inactive=Color.bright_blue,
+        other_current_screen_border=Color.blue,
+        other_screen_border=Color.blue,
+        this_current_screen_border=Color.red,
+        this_screen_border=Color.red,
+        urgent_border=Color.red,
+        urgent_text=Color.red,
+        use_mouse_whell=False,
+    ),
+    widget.TextBox("|"),
+    widget.CurrentLayout(),
+    widget.TextBox("|"),
+    widget.WindowName(),
+    #
+    widget.Spacer(),
+    widget.Clock(format="%d-%m-%Y | %a | %H:%M:%S"),
+    widget.Spacer(),
+    #
+    widget.Systray(),
+    widget.TextBox("|"),
+    widget.CPU(format="CPU {load_percent}%"),  # Needs psutil installed (pip)
+    widget.TextBox("|"),
+    widget.Memory(  # Needs psutil installed (pip)
+        measure_mem="G",
+        format="RAM {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}",
+    ),
+    widget.TextBox("|"),
+    widget.KeyboardLayout(configured_keyboards=["de", "us"]),
+    widget.TextBox("| VOL"),
+    widget.PulseVolume(),  # Needs pulsectl_asyncio installed (pip)
+    widget.TextBox("|"),
+    widget.QuickExit(),
+]
+widgets_second_screen = deepcopy(widgets)
+del widgets_second_screen[-10]  # Removes Seperator
+del widgets_second_screen[-10]  # Removes Systray
+
+# Inserts battery indication if the file `laptop` is present in the config dir.
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if os.path.isfile(current_dir + "/laptop"):
+    widgets.insert(-2, widget.TextBox("| BAT"))
+    widgets.insert(
+        -2,
+        widget.Battery(
+            discharge_char="v",
+            empty_char="X",
+            format="{percent:2.0%} {hour:d}:{min:02d} {char}",
+        ),
+    )
+    widgets_second_screen.insert(-2, widget.TextBox("| BAT"))
+    widgets_second_screen.insert(
+        -2,
+        widget.Battery(
+            discharge_char="v",
+            empty_char="X",
+            format="{percent:2.0%} {hour:d}:{min:02d} {char}",
+        ),
+    )
+
 screens = [
     Screen(
         wallpaper="~/.config/wallpaper/background.png",
         wallpaper_mode="stretch",
         top=bar.Bar(
-            [
-                widget.GroupBox(
-                    block_highlight_text_color=Color.blue,
-                    highlight_color=["000000", Color.bright_red],
-                    highlight_method="line",
-                    inactive=Color.bright_blue,
-                    other_current_screen_border=Color.blue,
-                    other_screen_border=Color.blue,
-                    this_current_screen_border=Color.red,
-                    this_screen_border=Color.red,
-                    urgent_border=Color.red,
-                    urgent_text=Color.red,
-                    use_mouse_whell=False,
-                ),
-                widget.TextBox("|"),
-                widget.CurrentLayout(),
-                widget.TextBox("|"),
-                widget.WindowName(),
-                #
-                widget.Spacer(),
-                widget.Clock(format="%d-%m-%Y | %a | %H:%M:%S"),
-                widget.Spacer(),
-                #
-                widget.Systray(),
-                widget.TextBox("|"),
-                widget.CPU(format="CPU {load_percent}%"),
-                widget.TextBox("|"),
-                widget.Memory(
-                    measure_mem="G", format="RAM {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
-                ),
-                widget.TextBox("|"),
-                widget.KeyboardLayout(configured_keyboards=["de", "us"]),
-                widget.TextBox("| VOL"),
-                widget.PulseVolume(),
-                widget.TextBox("|"),
-                widget.QuickExit(),
-            ],
+            widgets,
             30,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
@@ -384,41 +419,7 @@ screens = [
         wallpaper="~/.config/wallpaper/background.png",
         wallpaper_mode="stretch",
         top=bar.Bar(
-            [
-                widget.GroupBox(
-                    block_highlight_text_color=Color.blue,
-                    highlight_color=["000000", Color.bright_red],
-                    highlight_method="line",
-                    inactive=Color.bright_blue,
-                    other_current_screen_border=Color.blue,
-                    other_screen_border=Color.blue,
-                    this_current_screen_border=Color.red,
-                    this_screen_border=Color.red,
-                    urgent_border=Color.red,
-                    urgent_text=Color.red,
-                    use_mouse_whell=False,
-                ),
-                widget.TextBox("|"),
-                widget.CurrentLayout(),
-                widget.TextBox("|"),
-                widget.WindowName(),
-                #
-                widget.Spacer(),
-                widget.Clock(format="%d-%m-%Y | %a | %I:%M:%S %p"),
-                widget.Spacer(),
-                #
-                widget.CPU(format="CPU {load_percent}%"),
-                widget.TextBox("|"),
-                widget.Memory(
-                    measure_mem="G", format="RAM {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}"
-                ),
-                widget.TextBox("|"),
-                widget.KeyboardLayout(configured_keyboards=["de", "us"]),
-                widget.TextBox("| VOL"),
-                widget.PulseVolume(),
-                widget.TextBox("|"),
-                widget.QuickExit(),
-            ],
+            widgets_second_screen,
             30,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
