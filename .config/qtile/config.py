@@ -82,11 +82,6 @@ elif qtile.core.name == "wayland":
 #     pass
 #
 
-
-def set_floating_false(window):
-    windows.floating = False
-
-
 mod = "mod4"
 terminal = guess_terminal()
 
